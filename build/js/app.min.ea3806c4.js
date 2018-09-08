@@ -96,7 +96,8 @@
 	            return {
 	                request: function(config) {
 	                    config.headers = config.headers || {};
-// 	                    config.headers['Content-Type'] = 'application/json';
+	                    config.headers['Content-Type'] = 'application/json';
+				config.headers['Access-Control-Allow-Origin'] = '*';
 	                    return config;
 	                }
 
