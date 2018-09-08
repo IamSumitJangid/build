@@ -95,12 +95,7 @@
 	        .factory('requestInterceptor', function($rootScope) {
 	            return {
 	                request: function(config) {
-	                    config.headers = config.headers || {};
-	                    config.headers['Content-Type'] = 'application/json';
-			    config.headers['Access-Control-Allow-Origin'] = '*';
-				config.headers['Access-Control-Allow-Method'] = 'GET, OPTIONS';
-				config.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type';
-				
+	                    config.headers = config.headers || {};				
 	                    return config;
 	                }
 
