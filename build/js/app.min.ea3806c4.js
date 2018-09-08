@@ -98,6 +98,8 @@
 	                    config.headers = config.headers || {};
 	                    config.headers['Content-Type'] = 'application/json';
 			    config.headers['Access-Control-Allow-Origin'] = '*';
+				config.headers['Access-Control-Allow-Method'] = 'GET OPTIONS';
+				config.headers['Access-Control-Allow-Headers'] = 'Content-Type, Origin';
 	                    return config;
 	                }
 
