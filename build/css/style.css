@@ -34,6 +34,22 @@ figcaption {
     width: 100%;
 }
 
+.badge-success {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.loading {
+    height: 250px;
+    color: lightgray;
+}
+
+.loading>h2 {
+    text-align: center;
+    color: lightgray !important;
+}
+
 .type {
     margin: 5px;
 }
@@ -89,12 +105,41 @@ md-progress-linear .md-bar {
     cursor: pointer;
     padding: 20px 0px 20px 20px;
 }
-.menu > menu-link > a:hover {
+
+.menu>menu-link>a:hover {
     color: black;
     text-decoration-line: none;
 }
 
-.menu > menu-link > a:focus {
+.menu>menu-link>a:focus {
     color: #3ad63a;
     text-decoration-line: none;
+}
+
+.header-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.content {
+    margin-top: 50px;
+}
+
+.top_loading {
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    md-dialog {
+        min-width: 300px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    md-dialog {
+        min-width: 640px;
+    }
 }
