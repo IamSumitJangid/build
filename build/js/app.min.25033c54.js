@@ -80,6 +80,11 @@
 	                    data: { pageTitle: 'Pokemon Directory : Pokemons' }
 	                });
 	        }])
+	        .filter('getidbyurl', function() {
+	            return function(string, pattern) {
+	                return string.split(pattern)[1].replace("\/", "");
+	            }
+	        });
 
 	})();
 
@@ -95,7 +100,8 @@
 	        .factory('requestInterceptor', function($rootScope) {
 	            return {
 	                request: function(config) {
-	                    config.headers = config.headers || {};				
+	                    config.headers = config.headers || {};
+	                    config.headers['Content-Type'] = 'application/json';
 	                    return config;
 	                }
 
@@ -187,16 +193,16 @@
 	        });
 
 
-	    ctrlDialog.$inject = ['$scope', 'PokemonService', '$mdDialog'];
+	    ctrlDialog.$inject = ['$scope', 'PokemonService', '$mdDialog', '$filter'];
 
-	    function ctrlDialog($scope, PokemonService, $mdDialog) {
+	    function ctrlDialog($scope, PokemonService, $mdDialog, $filter) {
 	        var $ctrl = this;
 
 
 	        $ctrl.$onInit = function() {
 	            console.log($ctrl);
 	            $ctrl.isFetching = true;
-	            PokemonService.get($ctrl.url)
+	            PokemonService.getDetails($ctrl.url)
 	                .then(response => {
 	                    console.log(response);
 	                    $ctrl.pokemonDetail= response.data;
@@ -213,7 +219,7 @@
 	            .then(response => {
 	                    console.log(response);
 	                    $ctrl.pokemonDetail.evalution = response.data;
-	                    $ctrl.pokemonDetail.evalution.imageNo = response.data.chain.evolves_to[0].species.url.split('pokemon-species/')[1].replace("\/", "");
+	                    $ctrl.pokemonDetail.evalution.imageNo = $filter('getidbyurl')(response.data.chain.evolves_to[0].species.url, 'pokemon-species/');
 	                }, error => {
 	                    console.log(error);
 	                });
@@ -234,14 +240,14 @@
 	    'use strict';
 
 	    angular.module('Home')
-	        .controller('PokemonController', ['$rootScope', '$scope', 'PokemonService', '$mdDialog', function($rootScope, $scope, PokemonService, $mdDialog) {
+	        .controller('PokemonController', ['$rootScope', '$scope', 'PokemonService', '$mdDialog', '$filter', function($rootScope, $scope, PokemonService, $mdDialog, $filter) {
 	            var pokemonCtrl = this;
 	            pokemonCtrl.pokemonsData = {};
 	            var apiUrl = 'https://pokeapi.co/api/v2/pokemon';
 
 	            function settingImageUrl() {
 	                angular.forEach(pokemonCtrl.pokemonsData.results, function(obj) {
-	                    obj.imageNumber = obj.url.split('pokemon/')[1].replace("\/", "");
+	                    obj.imageNumber = $filter('getidbyurl')(obj.url, 'pokemon/');
 	                    obj.rank = obj.imageNumber;
 	                });
 	            }
@@ -256,7 +262,7 @@
 	            function getPokemonsForGridView(url) {
 	                pokemonCtrl.showLoading = true;
 	                $rootScope.loading = true;
-	                PokemonService.get(url)
+	                PokemonService.getPokemons(url)
 	                    .then(response => {
 	                        pokemonCtrl.pokemonsData = response.data;
 	                        settingImageUrl();
@@ -302,11 +308,25 @@
 	        .service('PokemonService', ['$http', function($http) {
 	            var service = this;
 	            
-	        
+	            service.getPokemons = function(url) {
+	                return $http({
+	                    method: "GET",
+	                    url: 'api/pokemons.json'
+	                });
+	            }
+
+	            service.getDetails = function(url) {
+	                return $http({
+	                    method: "GET",
+	                    url: 'api/detail.json'
+	                });
+	            }
+
+
 	            service.get = function(url) {
 	                return $http({
 	                    method: "GET",
-	                    url: url//'api/evolution.json'
+	                    url: 'api/evolution.json'
 	                });
 	            }
 
