@@ -202,7 +202,7 @@
 	        $ctrl.$onInit = function() {
 	            console.log($ctrl);
 	            $ctrl.isFetching = true;
-	            PokemonService.getDetails($ctrl.url)
+	            PokemonService.get($ctrl.url)
 	                .then(response => {
 	                    console.log(response);
 	                    $ctrl.pokemonDetail= response.data;
@@ -262,7 +262,7 @@
 	            function getPokemonsForGridView(url) {
 	                pokemonCtrl.showLoading = true;
 	                $rootScope.loading = true;
-	                PokemonService.getPokemons(url)
+	                PokemonService.get(url)
 	                    .then(response => {
 	                        pokemonCtrl.pokemonsData = response.data;
 	                        settingImageUrl();
@@ -308,27 +308,27 @@
 	        .service('PokemonService', ['$http', function($http) {
 	            var service = this;
 	            
-	            service.getPokemons = function(url) {
-	                return $http({
-	                    method: "GET",
-	                    url: 'api/pokemons.json'
-	                });
-	            }
-
-	            service.getDetails = function(url) {
-	                return $http({
-	                    method: "GET",
-	                    url: 'api/detail.json'
-	                });
-	            }
-
-
 	            service.get = function(url) {
 	                return $http({
 	                    method: "GET",
-	                    url: 'api/evolution.json'
+	                    url: url
 	                });
 	            }
+
+	            // service.getDetails = function(url) {
+	            //     return $http({
+	            //         method: "GET",
+	            //         url: 'api/detail.json'
+	            //     });
+	            // }
+
+
+	            // service.get = function(url) {
+	            //     return $http({
+	            //         method: "GET",
+	            //         url: 'api/evolution.json'
+	            //     });
+	            // }
 
 	        }]);
 	})();
