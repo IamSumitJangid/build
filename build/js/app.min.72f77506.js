@@ -95,8 +95,7 @@
 	        .factory('requestInterceptor', function($rootScope) {
 	            return {
 	                request: function(config) {
-	                    config.headers = config.headers || {};
-	                    config.headers['Content-Type'] = 'application/json';
+	                    config.headers = config.headers || {};				
 	                    return config;
 	                }
 
