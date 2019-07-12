@@ -255,7 +255,7 @@
 
 	            function currentViewPageInfo() {
 	                var total = pokemonCtrl.pokemonsData.count;
-	                var offset = pokemonCtrl.pokemonsData.next.split('&offset=')[1] - 20 + 1;
+	                var offset =  pokemonCtrl.pokemonsData.next.split('offset=')[1] - 20 + 1;
 	                pokemonCtrl.showingReasult = "showing " + Number(offset) + " to " + (Number(offset) + 19) + " of total " + total;
 	            }
 
